@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Navbar from './components/layout/Navbar'
 import Users from './components/users/Users'
+import Search from './components/users/Search'
 
 import axios from 'axios'
 
@@ -19,7 +20,6 @@ class App extends Component {
 		const res = await axios.get(`https://api.github.com/users?clinet_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&clinet_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`)
 
 		this.setState({ users: res.data, loading: false })
-		console.log(res.data)
 	}
 
 	render(){
@@ -27,6 +27,7 @@ class App extends Component {
     		<div className="App">
 				<Navbar />
 				<div className="container">
+					<Search />
 					<Users loading={this.state.loading} users={this.state.users}/>
 				</div>
       			
