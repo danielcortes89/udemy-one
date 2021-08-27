@@ -1,46 +1,35 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-class Search extends Component {
-    state = {
-        text: '',
+const Search =  ({ showClear, clearUsers, setAlert, searchUsers }) => {
+    const [text, setText] = useState('');
+    // nameOfState, nameToSetState, default value
+
+    const onChange = (e) => {
+        setText(e.target.value)
     }
 
-    static propTypes = {
-        searchUsers: PropTypes.func.isRequired,
-        clearUsers: PropTypes.func.isRequired,
-        showClear: PropTypes.bool.isRequired
-    }
-
-    onChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-    }
-
-    onSubmit = (e) => {
+    const onSubmit = (e) => {
         e.preventDefault()
-        if(this.state.text === ''){
-            this.props.setAlert('Please Enter Something', 'light')
+        if(text === ''){
+            setAlert('Please Enter Something', 'light')
         } else {
-            this.props.searchUsers(this.state.text)
-            this.setState({text: ''})
+            searchUsers(text)
+            setText('')
         }
         
-        
     }
 
-    render() {
-        const { showClear, clearUsers } = this.props 
+
         return (
             <div>
-                <form className="form" onSubmit={this.onSubmit}>
+                <form className="form" onSubmit={onSubmit}>
                     <input 
                         type="text" 
                         name="text"
-                        value={this.state.text} 
+                        value={text} 
                         placeholder="seach users"
-                        onChange={this.onChange}/>
+                        onChange={onChange}/>
                     <input type="submit" value ="search" className="btn btn-dark btn-block"/>
                 </form>
 
@@ -51,7 +40,12 @@ class Search extends Component {
                 }       
             </div>
         )
-    }
+}
+
+Search.propTypes = {
+    searchUsers: PropTypes.func.isRequired,
+    clearUsers: PropTypes.func.isRequired,
+    showClear: PropTypes.bool.isRequired
 }
 
 export default Search
