@@ -18,23 +18,12 @@ import './App.css';
 
 
 const App = () => {
-	const [users, setUsers] = useState([])
-	const [user, setUser] = useState({})
-	const [loading, setLoading] = useState(false)
 	const [repos, setRepos] = useState([])
+	const [loading, setLoading] = useState(false)
 	const [alert, setAlert] = useState(null)
 
 	// Get a single githug user
-	const getUser = async (username) => {
-
-		setLoading(true)
-
-		const res = await axios.get(
-			`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&clinet_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`)
-
-		setUser(res.data)
-		setLoading(false)
-	}
+	
 
 	// Get users repos
 	const getUserRepos = async (username) => {
@@ -45,11 +34,6 @@ const App = () => {
 
 
 		setRepos(res.data)
-		setLoading(false)
-	}
-
-	const clearUsers = () => {
-		setUsers([])
 		setLoading(false)
 	}
 
@@ -76,14 +60,9 @@ const App = () => {
 						<Route exact path="/" render={props => (
 							<Fragment>
 								<Search 
-									clearUsers={clearUsers} 
-									showClear={users.length > 0 ? true : false}
 									setAlert={showAlert}
 								/>
-								<Users 
-									loading={loading} 
-									users={users} 
-								/>
+								<Users />
 							</Fragment>
 						)}/>
 						<Route exact path="/about" component={About}/>
@@ -92,10 +71,7 @@ const App = () => {
 							path='/user/:login' 
 							render={props => (
 							<User 
-								{...props} 
-								getUser={getUser} 
-								user={user} 
-								loading={loading} 
+								{...props}
 								getUserRepos={getUserRepos} 
 								repos={repos}
 							/>

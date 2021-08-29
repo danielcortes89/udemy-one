@@ -14,6 +14,18 @@ export default (state, action) => {
                 users: payload,
                 loading: false
             }
+        case CLEAR_USERS:
+            return {
+                ...state,
+                users: [],
+                loading: false
+            }
+        case GET_USER:
+            return {
+                ...state,
+                user: payload,
+                loading: false
+            }    
         default:
             return state
     }
